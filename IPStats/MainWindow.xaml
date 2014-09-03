@@ -1,8 +1,34 @@
 ﻿<Window x:Class="IPStats.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="TCP Connections" SizeToContent="Width" Height="350" Width="525">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Menu Name="MainMenu" IsMainMenu="True" Grid.Row="0">
+            <MenuItem Header="_File" Height="24">
+                <MenuItem Name="MenuExit" Header="E_xit" InputGestureText="Alt+F4" Click="Exit_Click" />
+            </MenuItem>
+        </Menu>
+        <ListView Name="Connections" GridViewColumnHeader.Click="Connections_ColumnHeaderClick" Grid.Row="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Process Id" DisplayMemberBinding="{Binding ProcessId}" />
+                    <GridViewColumn Header="Process Name" DisplayMemberBinding="{Binding Process.ProcessName}" />
+                    <GridViewColumn Header="Protocol Version" DisplayMemberBinding="{Binding ProtocolVersion}" />
+                    <GridViewColumn Header="State" DisplayMemberBinding="{Binding State}" />
+                    <GridViewColumn Header="Local Address" DisplayMemberBinding="{Binding LocalEndPoint.Address}" />
+                    <GridViewColumn Header="Local Port" DisplayMemberBinding="{Binding LocalEndPoint.Port}" />
+                    <GridViewColumn Header="Remote Address" DisplayMemberBinding="{Binding RemoteEndPoint.Address}" />
+                    <GridViewColumn Header="Remote Port" DisplayMemberBinding="{Binding RemoteEndPoint.Port}" />
+                    <GridViewColumn Header="Bytes In" DisplayMemberBinding="{Binding DataBytesIn}" />
+                    <GridViewColumn Header="Bytes Out" DisplayMemberBinding="{Binding DataBytesOut}" />
+                    <GridViewColumn Header="Inbound Bandwidth" DisplayMemberBinding="{Binding InboundBandwidth}" />
+                    <GridViewColumn Header="Oubound Bandwidth" DisplayMemberBinding="{Binding OutboundBandwidth}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
