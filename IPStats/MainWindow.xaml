@@ -9,12 +9,56 @@
         </Grid.RowDefinitions>
         <Menu Name="MainMenu" IsMainMenu="True" Grid.Row="0">
             <MenuItem Header="_File" Height="24">
-                <MenuItem Name="MenuExit" Header="E_xit" InputGestureText="Alt+F4" Click="Exit_Click" />
+                <MenuItem Name="MenuExit" Header="E_xit" InputGestureText="Alt+F4" Click="MenuExit_Click" />
+            </MenuItem>
+            <MenuItem Header="_View" Height="24">
+                <MenuItem Name="MenuRefresh" Header="_Refresh" InputGestureText="F5" Click="MenuRefresh_Click" />
             </MenuItem>
         </Menu>
         <ListView Name="Connections" GridViewColumnHeader.Click="Connections_ColumnHeaderClick" Grid.Row="1">
             <ListView.View>
                 <GridView>
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style TargetType="GridViewColumnHeader">
+                            <Setter Property="Padding" Value="5"  />
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding DataStatsEnabled}" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock TextWrapping="WrapWithOverflow" Width="60" Text="Data Stats Enabled" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding InboundBandwidthStatsEnabled}" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock TextWrapping="WrapWithOverflow" Width="60" Text="Inbound Bandwidth Stats Enabled" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding OutboundBandwidthStatsEnabled}" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock TextWrapping="WrapWithOverflow" Width="60" Text="Outbound Bandwidth Stats Enabled" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Process Id" DisplayMemberBinding="{Binding ProcessId}" />
                     <GridViewColumn Header="Process Name" DisplayMemberBinding="{Binding Process.ProcessName}" />
                     <GridViewColumn Header="Protocol Version" DisplayMemberBinding="{Binding ProtocolVersion}" />
@@ -25,6 +69,8 @@
                     <GridViewColumn Header="Remote Port" DisplayMemberBinding="{Binding RemoteEndPoint.Port}" />
                     <GridViewColumn Header="Bytes In" DisplayMemberBinding="{Binding DataBytesIn}" />
                     <GridViewColumn Header="Bytes Out" DisplayMemberBinding="{Binding DataBytesOut}" />
+                    <GridViewColumn Header="Packets In" DisplayMemberBinding="{Binding SegmentsIn}" />
+                    <GridViewColumn Header="Packets Out" DisplayMemberBinding="{Binding SegmentsOut}" />
                     <GridViewColumn Header="Inbound Bandwidth" DisplayMemberBinding="{Binding InboundBandwidth}" />
                     <GridViewColumn Header="Oubound Bandwidth" DisplayMemberBinding="{Binding OutboundBandwidth}" />
                 </GridView>

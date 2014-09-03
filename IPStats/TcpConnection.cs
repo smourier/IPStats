@@ -14,13 +14,37 @@ namespace IPStats
     public sealed class TcpConnection : INotifyPropertyChanged, IEquatable<TcpConnection>
     {
         private Process _process;
-        private object _row;
+        private ValueType _row;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private TcpConnection(object row)
+        private TcpConnection(ValueType row)
         {
             _row = row;
+        }
+
+        public ulong SegmentsOut
+        {
+            get
+            {
+                TCP_ESTATS_DATA_ROD_v0 rod;
+                if (!DataStatsEnabled || !TryGetRodStats<TCP_ESTATS_DATA_ROD_v0>(TCP_ESTATS_TYPE.TcpConnectionEstatsData, out rod))
+                    return 0;
+
+                return rod.SegsOut;
+            }
+        }
+
+        public ulong SegmentsIn
+        {
+            get
+            {
+                TCP_ESTATS_DATA_ROD_v0 rod;
+                if (!DataStatsEnabled || !TryGetRodStats<TCP_ESTATS_DATA_ROD_v0>(TCP_ESTATS_TYPE.TcpConnectionEstatsData, out rod))
+                    return 0;
+
+                return rod.SegsIn;
+            }
         }
 
         public ulong DataBytesIn
@@ -142,6 +166,7 @@ namespace IPStats
         public IPEndPoint LocalEndPoint { get; private set; }
         public IPEndPoint RemoteEndPoint { get; private set; }
         public TcpState State { get; private set; }
+        public bool HasChanged { get; private set; }
 
         public string ProtocolVersion
         {
@@ -441,6 +466,8 @@ namespace IPStats
             {
                 OnPropertyChanged("DataBytesIn");
                 OnPropertyChanged("DataBytesOut");
+                OnPropertyChanged("SegmentsIn");
+                OnPropertyChanged("SegmentsOut");
             }
             if (InboundBandwidthStatsEnabled)
             {
